@@ -10,8 +10,8 @@ This widget in itself doesn't do much except visually change the url in your bro
 - Strips spaces from url
 
 ## Usage
-Add the widget to the page you wish to overwrite the URL for.
-Configure the desired url in the widget (without the base app url).
+- Add the widget to the page you wish to overwrite the URL for.
+- Configure the desired url in the widget (without the base app url).
 
 ## Demo project
 https://seturlreact-sandbox.mxapps.io/

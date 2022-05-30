@@ -9,8 +9,7 @@ export class SetUrlFunction extends Component {
         const currentUrl = window.location.href;
         if (!currentUrl.endsWith(this.props.url)) {
             const state = history.state;
-            console.log(this.title);
-            history.replaceState(state, this.title, this.props.url);
+            history.replaceState(state, document.title, this.props.url);
         }
     };
 

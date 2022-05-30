@@ -1,24 +1,20 @@
-## SetURLReact
-[My widget description]
+## Set URL React
+This is a widget that overwrites the url of the page. For example from /p/accountoverview to /link/accounts.
+
+There is no need to fill in the base-url of the application, this is done automatically.
+
+This widget in itself doesn't do much except visually change the url in your browser. If you want to actually have a working URL you should use this widget together the the [Deeplink Module](https://marketplace.mendix.com/link/component/43).
 
 ## Features
-[feature highlights]
+- Overwrite page url
+- Strips spaces from url
 
 ## Usage
-[step by step instructions]
+Add the widget to the page you wish to overwrite the URL for.
+Configure the desired url in the widget (without the base app url).
 
 ## Demo project
-[link to sandbox]
+https://seturlreact-sandbox.mxapps.io/
 
 ## Issues, suggestions and feature requests
-[link to GitHub issues]
-
-## Development and contribution
-
-1. Install NPM package dependencies by using: `npm install`. If you use NPM v7.x.x, which can be checked by executing `npm -v`, execute: `npm install --legacy-peer-deps`.
-1. Run `npm start` to watch for code changes. On every change:
-    - the widget will be bundled;
-    - the bundle will be included in a `dist` folder in the root directory of the project;
-    - the bundle will be included in the `deployment` and `widgets` folder of the Mendix test project.
-
-[specify contribution]
+https://github.com/hunterkoppenclevr/setURLReact/issues

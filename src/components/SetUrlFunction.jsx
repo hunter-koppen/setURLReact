@@ -6,6 +6,15 @@ export class SetUrlFunction extends Component {
         Initialized: false
     };
 
+    createInterval = () => {
+        // remove spaces
+        this.props.url.value = this.props.url.value.replace(/\s+/g, "");
+
+        const IntervalId = setInterval(this.setUrl, 100);
+        this.setState({ IntervalId, Initialized: true });
+        setTimeout(this.removeInterval, 5000);
+    };
+
     setUrl = () => {
         const currentUrl = window.location.href;
         if (!currentUrl.endsWith(this.props.url.value)) {
@@ -19,17 +28,24 @@ export class SetUrlFunction extends Component {
         this.setState({ IntervalId: null });
     };
 
-    componentDidUpdate() {
-        if (this.state.Initialized === false) {
-            // Check if widget has loaded the url data
-            if (this.props.url.value) {
-                // remove spaces
-                this.props.url.value = this.props.url.value.replace(/\s+/g, "");
+    componentDidMount() {
+        console.log(this.props.url);
+        if (this.props.url && this.props.url.status === "available") {
+            this.createInterval();
+        }
+    }
 
-                const IntervalId = setInterval(this.setUrl, 100);
-                this.setState({ IntervalId, Initialized: true });
-                setTimeout(this.removeInterval, 2000);
-            }
+    componentDidUpdate(prevProps) {
+        // Check if widget has loaded the url data
+        console.log(prevProps);
+        console.log(this.props.url);
+        if (
+            this.props.url &&
+            prevProps &&
+            prevProps.url.status === "loading" &&
+            this.props.url.status === "available"
+        ) {
+            this.createInterval();
         }
     }
 

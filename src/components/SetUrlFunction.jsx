@@ -29,7 +29,7 @@ export class SetUrlFunction extends Component {
     };
 
     componentDidMount() {
-        console.log(this.props.url);
+        // If the url status is already available here then there is only static text in the url so the componentdidupdate will never be called so we need to create the interval here.
         if (this.props.url && this.props.url.status === "available") {
             this.createInterval();
         }
@@ -37,8 +37,6 @@ export class SetUrlFunction extends Component {
 
     componentDidUpdate(prevProps) {
         // Check if widget has loaded the url data
-        console.log(prevProps);
-        console.log(this.props.url);
         if (
             this.props.url &&
             prevProps &&

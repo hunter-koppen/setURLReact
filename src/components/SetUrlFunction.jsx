@@ -10,7 +10,7 @@ export class SetUrlFunction extends Component {
         // remove spaces
         this.props.url.value = this.props.url.value.replace(/\s+/g, "");
 
-        const IntervalId = setInterval(this.setUrl, 100);
+        const IntervalId = setInterval(this.setUrl, 10);
         this.setState({ IntervalId, Initialized: true });
         setTimeout(this.removeInterval, 5000);
     };
@@ -29,7 +29,7 @@ export class SetUrlFunction extends Component {
     };
 
     componentDidMount() {
-        console.log(this.props.url);
+        // If the url status is already available here then there is only static text in the url so the componentdidupdate will never be called so we need to create the interval here.
         if (this.props.url && this.props.url.status === "available") {
             this.createInterval();
         }
@@ -37,8 +37,6 @@ export class SetUrlFunction extends Component {
 
     componentDidUpdate(prevProps) {
         // Check if widget has loaded the url data
-        console.log(prevProps);
-        console.log(this.props.url);
         if (
             this.props.url &&
             prevProps &&

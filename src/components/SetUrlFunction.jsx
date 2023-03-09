@@ -28,6 +28,16 @@ export class SetUrlFunction extends Component {
         }
     };
 
+    revertAppend = valueToRevert => {
+        const currentUrl = window.location.href;
+        if (currentUrl.endsWith(valueToRevert)) {
+            const state = history.state;
+            const lengthToCut = valueToRevert.length * -1;
+            const oldUrl = currentUrl.slice(0, lengthToCut);
+            history.replaceState(state, document.title, oldUrl);
+        }
+    };
+
     removeInterval = () => {
         clearInterval(this.state.intervalId);
         this.setState({ intervalId: null });
@@ -49,6 +59,12 @@ export class SetUrlFunction extends Component {
             this.props.url.status === "available"
         ) {
             this.createInterval();
+        } else if (this.props.url !== prevProps.url && this.state.initialized) {
+            // this will run if the value has been updated later on.
+            if (this.props.append) {
+                this.revertAppend(prevProps.url.value);
+            }
+            this.createInterval();
         }
     }
 
@@ -57,14 +73,7 @@ export class SetUrlFunction extends Component {
             this.removeInterval();
         }
         if (this.props.append) {
-            const { url } = this.props;
-            const currentUrl = window.location.href;
-            if (currentUrl.endsWith(url.value)) {
-                const state = history.state;
-                const lengthToCut = url.value.length * -1;
-                const oldUrl = currentUrl.slice(0, lengthToCut);
-                history.replaceState(state, document.title, oldUrl);
-            }
+            this.revertAppend(this.props.url.value);
         }
     }
 

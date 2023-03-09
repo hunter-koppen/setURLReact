@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<widget id="clevr.seturlreact.SetURLReact" pluginWidget="true" needsEntityContext="true" offlineCapable="true"
-        supportedPlatform="Web"
-        xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+<widget id="clevr.seturlreact.SetURLReact" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web"
+    xmlns="http://www.mendix.com/widget/1.0/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>Set URL</name>
     <description/>
     <properties>
@@ -11,6 +10,10 @@
                 <caption>URL</caption>
                 <description>The url you wish to set for the page.</description>
                 <returnType type="String" />
+            </property>
+            <property key="append" type="boolean" defaultValue="false">
+                <caption>Append</caption>
+                <description>If true, will only append the value of the input to the existing url instead of completely replacing it.</description>
             </property>
         </propertyGroup>
     </properties>

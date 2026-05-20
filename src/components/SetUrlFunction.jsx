@@ -1,68 +1,104 @@
-import { Component, createElement } from "react";
+import { Component } from "react";
 
 export class SetUrlFunction extends Component {
     state = {
         intervalId: null,
         initialized: false
     };
+    timeoutId = null;
+    stableCount = 0;
+
+    getSanitizedValue = val => {
+        if (typeof val === "string") {
+            return val.replace(/\s+/g, "");
+        }
+        return "";
+    };
 
     createInterval = () => {
-        // remove spaces
-        this.props.url.value = this.props.url.value.replace(/\s+/g, "");
+        if (this.state.intervalId) {
+            clearInterval(this.state.intervalId);
+        }
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId);
+        }
 
-        const intervalId = setInterval(this.setUrl, 10);
+        this.stableCount = 0;
+
+        // Run setUrl once immediately so the change is quick
+        this.setUrl();
+
+        const intervalId = setInterval(this.setUrl, 20);
         this.setState({ intervalId, initialized: true });
-        setTimeout(this.removeInterval, 5000);
+        this.timeoutId = setTimeout(this.removeInterval, 5000);
     };
 
     setUrl = () => {
         const { url, append } = this.props;
+        if (!url || url.status !== "available" || !url.value) {
+            return;
+        }
+
+        const sanitizedValue = this.getSanitizedValue(url.value);
         const currentUrl = window.location.href;
-        if (!currentUrl.endsWith(url.value)) {
+
+        if (!currentUrl.endsWith(sanitizedValue)) {
+            this.stableCount = 0;
             const state = history.state;
             if (append) {
-                history.replaceState(state, document.title, currentUrl + url.value);
+                history.replaceState(state, document.title, currentUrl + sanitizedValue);
             } else {
-                history.replaceState(state, document.title, url.value);
+                history.replaceState(state, document.title, sanitizedValue);
+            }
+        } else {
+            this.stableCount += 1;
+            if (this.stableCount >= 10) {
+                // If the URL remains correct for 10 consecutive ticks (200ms),
+                // we have stabilized and can clean up the interval early.
+                this.removeInterval();
             }
         }
     };
 
     revertAppend = valueToRevert => {
+        const sanitizedRevert = this.getSanitizedValue(valueToRevert);
+        if (!sanitizedRevert) {
+            return;
+        }
         const currentUrl = window.location.href;
-        if (currentUrl.endsWith(valueToRevert)) {
+        if (currentUrl.endsWith(sanitizedRevert)) {
             const state = history.state;
-            const lengthToCut = valueToRevert.length * -1;
+            const lengthToCut = sanitizedRevert.length * -1;
             const oldUrl = currentUrl.slice(0, lengthToCut);
             history.replaceState(state, document.title, oldUrl);
         }
     };
 
     removeInterval = () => {
-        clearInterval(this.state.intervalId);
+        if (this.state.intervalId) {
+            clearInterval(this.state.intervalId);
+        }
         this.setState({ intervalId: null });
+        this.timeoutId = null;
     };
 
     componentDidMount() {
-        // If the url status is already available here then there is only static text in the url so the componentdidupdate will never be called so we need to create the interval here.
         if (this.props.url && this.props.url.status === "available") {
             this.createInterval();
         }
     }
 
     componentDidUpdate(prevProps) {
-        // Check if widget has loaded the url data
-        if (
-            this.props.url &&
-            prevProps &&
-            prevProps.url.status === "loading" &&
-            this.props.url.status === "available"
-        ) {
+        const currentUrlVal = this.props.url ? this.props.url.value : undefined;
+        const prevUrlVal = prevProps && prevProps.url ? prevProps.url.value : undefined;
+        const currentUrlStatus = this.props.url ? this.props.url.status : undefined;
+        const prevUrlStatus = prevProps && prevProps.url ? prevProps.url.status : undefined;
+
+        if (currentUrlStatus === "available" && prevUrlStatus === "loading") {
             this.createInterval();
-        } else if (this.props.url !== prevProps.url && this.state.initialized) {
-            // this will run if the value has been updated later on.
+        } else if (currentUrlVal !== prevUrlVal && this.state.initialized) {
             if (this.props.append) {
-                this.revertAppend(prevProps.url.value);
+                this.revertAppend(prevUrlVal);
             }
             this.createInterval();
         }
@@ -70,9 +106,12 @@ export class SetUrlFunction extends Component {
 
     componentWillUnmount() {
         if (this.state.intervalId) {
-            this.removeInterval();
+            clearInterval(this.state.intervalId);
         }
-        if (this.props.append) {
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId);
+        }
+        if (this.props.append && this.props.url) {
             this.revertAppend(this.props.url.value);
         }
     }

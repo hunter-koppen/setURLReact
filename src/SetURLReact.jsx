@@ -1,4 +1,4 @@
-import { Component, createElement } from "react";
+import { Component } from "react";
 
 import { SetUrlFunction } from "./components/SetUrlFunction";
 

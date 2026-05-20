@@ -1,4 +1,4 @@
-## Set URL React
+## Set Page URL
 This is a widget that overwrites the url of the page. For example from /p/accountoverview to /link/accounts.
 
 There is no need to fill in the base-url of the application, this is done automatically.
@@ -18,4 +18,4 @@ This widget in itself doesn't do much except visually change the url in your bro
 https://seturlreact-sandbox.mxapps.io/
 
 ## Issues, suggestions and feature requests
-https://github.com/hunter-koppen/setURLReact/issues
+https://github.com/hunter-koppen/SetPageURL/issues

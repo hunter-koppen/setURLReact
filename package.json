@@ -1,8 +1,8 @@
 {
-  "name": "seturlreact",
-  "widgetName": "SetURLReact",
-  "version": "1.0.0",
-  "description": "My widget description",
+  "name": "setpageurl",
+  "widgetName": "SetPageURL",
+  "version": "1.3.0",
+  "description": "",
   "copyright": "Kobeon B.V. 2026",
   "author": "Hunter Koppen",
   "engines": {

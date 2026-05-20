@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<widget id="kobeon.seturlreact.SetURLReact" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web"
+<widget id="kobeon.setpageurl.SetPageURL" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web"
     xmlns="http://www.mendix.com/widget/1.0/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
-    <name>Set URL</name>
+    <name>Set Page URL</name>
     <description/>
     <properties>
         <propertyGroup caption="General">

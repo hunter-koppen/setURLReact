@@ -3,7 +3,7 @@
   "widgetName": "SetURLReact",
   "version": "1.0.0",
   "description": "My widget description",
-  "copyright": "CLEVR NL BV 2022",
+  "copyright": "Kobeon B.V. 2026",
   "author": "Hunter Koppen",
   "engines": {
     "node": ">=12"
@@ -25,7 +25,7 @@
     "release": "pluggable-widgets-tools release:web"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": "^9.13.2"
+    "@mendix/pluggable-widgets-tools": "^11.8.1"
   },
   "dependencies": {
     "classnames": "^2.2.6"

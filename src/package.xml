@@ -5,7 +5,7 @@
             <widgetFile path="SetURLReact.xml"/>
         </widgetFiles>
         <files>
-            <file path="clevr/seturlreact"/>
+            <file path="kobeon/seturlreact"/>
         </files>
     </clientModule>
 </package>

@@ -18,4 +18,4 @@ This widget in itself doesn't do much except visually change the url in your bro
 https://seturlreact-sandbox.mxapps.io/
 
 ## Issues, suggestions and feature requests
-https://github.com/hunterkoppenclevr/setURLReact/issues
+https://github.com/hunter-koppen/setURLReact/issues

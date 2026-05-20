@@ -7,6 +7,7 @@ export class SetUrlFunction extends Component {
     };
     timeoutId = null;
     stableCount = 0;
+    replaceCount = 0;
 
     getSanitizedValue = val => {
         if (typeof val === "string") {
@@ -24,6 +25,7 @@ export class SetUrlFunction extends Component {
         }
 
         this.stableCount = 0;
+        this.replaceCount = 0;
 
         // Run setUrl once immediately so the change is quick
         this.setUrl();
@@ -41,10 +43,25 @@ export class SetUrlFunction extends Component {
 
         const sanitizedValue = this.getSanitizedValue(url.value);
         const currentUrl = window.location.href;
+        let decodedUrl = currentUrl;
+        try {
+            decodedUrl = decodeURIComponent(currentUrl);
+        } catch (e) {
+            // Ignore decoding issues and fallback to currentUrl
+        }
 
-        if (!currentUrl.endsWith(sanitizedValue)) {
+        if (!decodedUrl.endsWith(sanitizedValue)) {
             this.stableCount = 0;
+
+            // Absolute safeguard: do not call replaceState more than 15 times per interval session
+            if (this.replaceCount >= 15) {
+                this.removeInterval();
+                return;
+            }
+
             const state = history.state;
+            this.replaceCount += 1;
+
             if (append) {
                 history.replaceState(state, document.title, currentUrl + sanitizedValue);
             } else {
@@ -66,7 +83,14 @@ export class SetUrlFunction extends Component {
             return;
         }
         const currentUrl = window.location.href;
-        if (currentUrl.endsWith(sanitizedRevert)) {
+        let decodedUrl = currentUrl;
+        try {
+            decodedUrl = decodeURIComponent(currentUrl);
+        } catch (e) {
+            // Fallback
+        }
+
+        if (decodedUrl.endsWith(sanitizedRevert)) {
             const state = history.state;
             const lengthToCut = sanitizedRevert.length * -1;
             const oldUrl = currentUrl.slice(0, lengthToCut);

@@ -13,8 +13,7 @@ export function getPreview(values, isDarkMode) {
                     {
                         type: "Text",
                         fontColor: isDarkMode ? "#579BF9" : "#2D2FB8",
-                        content:
-                            "Set URL: " + values.url
+                        content: "Set URL: " + values.url
                     }
                 ]
             },
